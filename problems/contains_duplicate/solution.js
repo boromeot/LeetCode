@@ -3,13 +3,14 @@
  * @return {boolean}
  */
 var containsDuplicate = function(nums) {
-    const found = new Map();
+    let set = new Set();
+    
     for (let i = 0; i < nums.length; i++) {
         let n = nums[i];
-        if (found.has(n)) {
+        if (set.has(n)) {
             return true;
         }
-        found.set(n, 1);
+        set.add(n)
     }
     return false;
 }
