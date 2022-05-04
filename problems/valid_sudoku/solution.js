@@ -3,61 +3,32 @@
  * @return {boolean}
  */
 var isValidSudoku = function(board) {
-    let m = 0;
-    let n = 0;
     
-    let o = 0;
-    let p = 0;
-    
-    for (let i = 0; i < board.length; i++) {
-        let rowSet = new Set();
-        let colSet = new Set();
-        let boxSet = new Set();
+    for (let i = 0; i < 9; i++) {
+        let row = new Set();
+        let col = new Set();
+        let square = new Set();
         
-        for (let j = 0; j < board[i].length; j++) {
-            let rowS = board[i][j];
-            if (rowS !== '.') {
-                if (rowSet.has(rowS)) {
-                    return false;
-                }
-                rowSet.add(rowS);
+        for (let j = 0; j < 9; j++) {
+            let _row = board[i][j];
+            let _col = board[j][i];
+            let _square = board[3 * Math.floor(i/3) + Math.floor(j/3)][3 * (i%3) + j%3];
+            
+            if (_row !== '.') {
+                if (row.has(_row)) return false;
+                row.add(_row);
             }
             
-            let colS = board[n][m];
-            if (colS !== '.') {
-                if (colSet.has(colS)) {
-                    return false;
-                }
-                colSet.add(colS);
+            if (_col !== '.') {
+                if (col.has(_col)) return false;
+                col.add(_col);
             }
-            n++;
             
-             if (p % 3 === 0 && p !== 0) {
-                if (i < 3) {
-                    p = 0;                    
-                } else if (i < 6) {
-                    p = 3;
-                } else {
-                    p = 6;
-                }
-                if (o % 8 === 0 && o !== 0) {
-                    o = 0;
-                } else {
-                    o++;
-                }
-            } 
-            
-            let boxS = board[o][p];
-            if (boxS !== '.') {
-                if (boxSet.has(boxS)) {
-                    return false;
-                }
-                boxSet.add(boxS);
+            if (_square !== '.') {
+                if (square.has(_square)) return false;
+                square.add(_square);
             }
-            p++;
-        }
-        n = 0;
-        m++;
+        }    
     }
     return true;
 };
