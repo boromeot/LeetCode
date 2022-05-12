@@ -6,23 +6,23 @@
 var topKFrequent = function(nums, k) {
     let map = new Map();
     for (let i = 0; i < nums.length; i++) {
-        let n = nums[i];
-        map.has(n) ? map.set(n, map.get(n) + 1) : map.set(n, 1);
+        const num = nums[i];
+        map.get(num) ? map.set(num, map.get(num) + 1) : map.set(num, 1);
     }
-    
-    let bucket = new Array(nums.length);
+    const arr = new Array(nums.length);
     for (let [k, v] of map) {
-        bucket[v] ? bucket[v].push(k) : bucket[v] = [k];
+        arr[v] ? arr[v].push(k) : arr[v] = [k];
     }
-    let answer = [];
-    for (let j = bucket.length - 1; j >= 0; j--) {
-        if (bucket[j]) {
-            for (let num of bucket[j]) {
-                answer.push(num);
-                if (answer.length >= k) {
-                    return answer;
+
+    const res = [];
+    for (let j = arr.length - 1; j >= 0; j--) {
+        if (arr[j]) {
+            for (let o = 0; o < arr[j].length; o++) {
+            res.push(arr[j][o]);
+                if (res.length >= k) {
+                    return res;
                 }
             }
-        }
+        }     
     }
-};
+};  
