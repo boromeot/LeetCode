@@ -4,15 +4,18 @@
  * @return {number[]}
  */
 var twoSum = function(numbers, target) {
-    let i = 0;
-    let j = numbers.length - 1;
-    while (i < j) {
-        if (numbers[i] + numbers[j] < target) {
-            i++;
-        } else if (numbers[i] + numbers[j] > target) {
-            j--;
+    let l = 0,
+        r = numbers.length - 1;
+    
+    while (l < r) {
+        let sum = numbers[l] + numbers[r];
+        if (sum === target) {
+            return [l + 1, r + 1];
+        } else if (sum < target) {
+            l++;
         } else {
-            return [i+1, j+1];
-        }
+            r--;
+        }        
     }
+    
 };
