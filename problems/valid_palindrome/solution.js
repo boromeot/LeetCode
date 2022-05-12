@@ -3,20 +3,18 @@
  * @return {boolean}
  */
 var isPalindrome = function(s) {
+    let l = 0,
+        r = s.length - 1;
     
-    let i = 0;
-    let j = s.length - 1;
-    while (i < j) {
-
-        if (!isAlphaNum(s[i])) {
-            i++;
-        } else if (!isAlphaNum(s[j])) {
-            j--;
-        } else if (s[i].toLowerCase() !== s[j].toLowerCase()) {
-            return false;
+    while (l <= r) {
+        if (!isAlphaNum(s[l])) {
+            l++;
+        } else if (!isAlphaNum(s[r])) {
+            r--;
         } else {
-            i++;
-            j--;
+            if (s[l].toLowerCase() !== s[r].toLowerCase()) return false;
+            l++;
+            r--;
         }
     }
     return true;
