@@ -3,38 +3,32 @@
  * @return {number[][]}
  */
 var threeSum = function(nums) {
-    let answer = [];
-    
-    if (nums.length < 3) {
-        return answer;
-    }
+    const res = [];
+    if (nums.length < 3) return res;
     
     const sorted = nums.sort((a, b) => a - b);
     const target = 0;
-    
     for (let i = 0; i < sorted.length; i++) {
+        
         if (sorted[i] > target) break;
+        if (i > 0 && sorted[i] === nums[i - 1]) continue;
         
-        if (i > 0 && sorted[i] === sorted[i - 1]) continue;
-        
-        let j = i + 1;
-        let k = sorted.length - 1;
-        while (j < k) {
-            let sum = sorted[i] + sorted[j] + sorted[k];
+        let l = i + 1;
+        let r = sorted.length - 1;
+        while (l < r) {
+            const sum = sorted[i] + sorted[l] + sorted[r];
             if (sum === target) {
-                answer.push([sorted[i], sorted[j], sorted[k]]);
-                while (sorted[j] === sorted[j + 1]) j++;
-                while (sorted[k] === sorted[k - 1]) k--;
-                j++;
-                k--;
+                res.push([sorted[i], sorted[l], sorted[r]]);
+                while (sorted[l] === sorted[l + 1]) l++;
+                while (sorted[r] === sorted[r - 1]) r--;
+                l++;
+                r--;
             } else if (sum < target) {
-                j++;
-            } else if (sum > target) {
-                k--;
+                l++;
+            } else {
+                r--;
             }
         }
     }
-    return answer;
+    return res;
 };
-
-//[-4,-1,-1,-1,0,1,2]
