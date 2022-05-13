@@ -5,17 +5,15 @@
  */
 var characterReplacement = function(s, k) {
     const map = new Map();
-    let res = 0;
-    let i = 0;
-    for (let j = 0; j < s.length; j++) {
-        map.get(s[j]) ? map.set(s[j], map.get(s[j]) + 1) : map.set(s[j], 1);
-        
-        while ((j - i + 1) - Math.max(...map.values()) > k) {
-            map.set(s[i], map.get(s[i]) - 1);
-            i++;
+    let l = 0;
+    let max = 0;
+    for (let r = 0; r < s.length; r++) {
+        map.get(s[r]) ? map.set(s[r], map.get(s[r]) + 1) : map.set(s[r], 1);
+        while ((r - l + 1) - Math.max(...map.values()) > k) {
+            map.set(s[l], map.get(s[l]) - 1);
+            l++;
         }
-        res = Math.max(res, j - i + 1);
-        
+        max = Math.max(max, (r - l + 1));
     }
-    return res;
+    return max;
 };// AABABBA
