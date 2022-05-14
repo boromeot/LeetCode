@@ -3,21 +3,23 @@
  * @return {boolean}
  */
 var isValid = function(s) {
-    let stack = [];
-    let map = {
-        ')' : '(',
+    const map = {
+        ']' : '[',
         '}' : '{',
-        ']' : '['
+        ')' : '('
     };
     
+    const stack = [];
+    
     for (let i = 0; i < s.length; i++) {
-        const c = s[i];
+        let c = s[i];
         if (c in map) {
-            if (stack.length <= 0 || stack.at(-1) !== map[c]) return false;
-            stack.pop();    
+            if (stack.length <= 0 || stack.at(-1) !== map[c] ) return false;
+            stack.pop();
         } else {
-          stack.push(c)  ;
+            stack.push(c);
         }
     }
     return stack.length === 0;
+    
 };
