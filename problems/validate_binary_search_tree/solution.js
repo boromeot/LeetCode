@@ -11,7 +11,7 @@
  * @return {boolean}
  */
 var isValidBST = function(root) {
-    let left = Number.NEGATIVE_INFINITY, 
+    let left = Number.NEGATIVE_INFINITY,
         right = Number.POSITIVE_INFINITY;
     
     return dfs(root, left, right);
@@ -22,6 +22,7 @@ var isValidBST = function(root) {
         if (root.val <= left || root.val >= right) return false;
         
         return (dfs(root.left, left, root.val) && dfs(root.right, root.val, right));
-        
     }
-};
+};//        6
+//        4   8
+//       3 5 7 9
