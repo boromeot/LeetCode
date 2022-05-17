@@ -12,7 +12,6 @@
  */
 var goodNodes = function(root) {
     let count = 0;
-    
     dfs(root, root.val);
     return count;
     
@@ -23,4 +22,5 @@ var goodNodes = function(root) {
         dfs(root.left, Math.max(root.val, maxVal));
         dfs(root.right, Math.max(root.val, maxVal));
     }
+    
 };
