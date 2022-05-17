@@ -12,18 +12,16 @@
  * @return {number}
  */
 var kthSmallest = function(root, k) {
-    const nums = [];
+    const sorted = [];
     
     dfs(root);
-    console.log(nums)
-    return nums[k - 1];
+    return sorted[k - 1];
+    
     function dfs(root) {
-        if ((!root)) return;
+        if (!root) return;
         dfs(root.left);
-        nums.push(root.val);
-        if (nums.length === k) {
-            return;
-        }
+        sorted.push(root.val);
         dfs(root.right);
     }
-};
+    
+}
