@@ -3,20 +3,15 @@
  * @return {number}
  */
 var numIslands = function(grid) {
-    if(!grid) {
-        return 0;
-    }
-    
-    const rows = grid.length,
-          cols = grid[0].length;
-    
-    const visited = new Set();
+    const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+    const height = grid.length,
+          width = grid[0].length;
     let islands = 0;
     
-    for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-            if(grid[r][c] === '1' && !visited.has(r.toString() + ',' + c.toString())) {
-                bfs(r, c);
+    for (let i = 0; i < height; i++) {
+        for (let j = 0; j < width; j++) {
+            if (grid[i][j] === '1') {
+                bfs(i, j);
                 islands++;
             }
         }
@@ -24,27 +19,19 @@ var numIslands = function(grid) {
     
     return islands;
     
-    function bfs(r, c) {
-        let q = [];
-        visited.add(r.toString() + c.toString());
-        q.push([r, c]);
-        
-        while(q.length > 0) {
-            let [row, col] = q.shift();
-            const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]];
-            for (let [rd, cd] of directions) {
-                let [newR, newC] = [row + rd, col + cd];
-                if (newR < rows && newR >= 0 &&
-                    newC < cols && newC >= 0 &&
-                    grid[newR][newC] === '1' &&
-                    !visited.has((newR).toString() + ',' + (newC).toString())) 
-                {
-                    q.push([newR, newC]);
-                    visited.add((newR).toString() + ',' + (newC).toString());
-                }
+    function bfs(row, col) {
+        const q = [[row, col]];
+        while (q.length > 0) {
+            let [r, c] = q.shift();
+            if (r < 0 || r >= height || c < 0 || c >= width || grid[r][c] === '0') continue;
+            grid[r][c] = '0';
+            for (let dir of directions) {
+                q.push([r + dir[0], c + dir[1]]);
             }
-            
         }
+        
     }
-    
 };
+// 1 1 1
+// 0 1 0
+// 1 1 1
