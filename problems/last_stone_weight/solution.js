@@ -28,8 +28,8 @@ class maxHeap {
     
     heapify() {
         if (this.size() <= 1) return;
-        for (let i = 1; i < this.size(); i++) {
-            this.bubbleUp(i);
+        for (let i = this.size() - 1; i >= 0; i--) {
+            this.bubbleDown(i);
         }
     }
     
