@@ -4,13 +4,12 @@
  */
 var subsets = function(nums) {
     const res = [];
-    
     const subset = [];
-    // [1,2]
+    
     dfs(0);
     return res;
     function dfs(l) {
-        if (l === nums.length) {
+        if (l >= nums.length) {
             res.push(subset.slice());
             return;
         }
