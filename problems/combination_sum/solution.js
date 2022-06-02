@@ -4,13 +4,14 @@
  * @return {number[][]}
  */
 var combinationSum = function(candidates, target) {
+    const res = [];
+    const combo = [];
+    let sum = 0;
+
+    dfs(0);
     
-    const res = [];    
-    dfs(0, [], 0);
-
     return res;
-    function dfs(l, combo, sum) {
-
+    function dfs(l) {
         if (sum === target) {
             res.push(combo.slice());
             return;
@@ -19,13 +20,13 @@ var combinationSum = function(candidates, target) {
         if (sum > target || l >= candidates.length) {
             return;
         }
-        combo.push(candidates[l]);
         
         sum += candidates[l];
-        
-        dfs(l, combo, sum);
+        combo.push(candidates[l]);
+        dfs(l);
+        sum -= candidates[l];
         combo.pop();
-        dfs(l + 1, combo, sum - candidates[l]);
+        dfs(l + 1);
     }
     
 };
