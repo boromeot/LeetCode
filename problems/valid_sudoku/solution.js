@@ -3,34 +3,34 @@
  * @return {boolean}
  */
 var isValidSudoku = function(board) {
+    const ROWS = board.length;
+    const COLS = board[0].length;
     
-    for (let i = 0; i < 9; i++) {
-        let row = new Set();
-        let col = new Set();
-        let square = new Set();
+    for (let i = 0; i < ROWS; i++) {
+        const rowSet = new Set();
+        const colSet = new Set();
+        const boxSet = new Set();
         
-        for (let j = 0; j < 9; j++) {
-            let _row = board[i][j];
-            let _col = board[j][i];
-            let _square = board[3 * Math.floor(i/3) + Math.floor(j/3)][3 * (i%3) + j%3];
+        for (let j = 0; j < COLS; j++) {
+            let r = (Math.floor(i / 3) * 3) + Math.floor(j / 3);
+            let c = 3 * (i % 3) + (j % 3);
             
-            if (_row !== '.') {
-                if (row.has(_row)) return false;
-                row.add(_row);
+            if (board[i][j] !== '.') {
+                if (rowSet.has(board[i][j])) return false;
+                rowSet.add(board[i][j]);
             }
             
-            if (_col !== '.') {
-                if (col.has(_col)) return false;
-                col.add(_col);
+            if (board[j][i] !== '.') {
+                if (colSet.has(board[j][i])) return false;
+                colSet.add(board[j][i]);
             }
             
-            if (_square !== '.') {
-                if (square.has(_square)) return false;
-                square.add(_square);
+            if (board[r][c] !== '.') {
+                if (boxSet.has(board[r][c])) return false;
+                boxSet.add(board[r][c]);
             }
-        }    
+            
+        }
     }
     return true;
 };
-    
-         
