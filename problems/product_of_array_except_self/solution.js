@@ -3,29 +3,24 @@
  * @return {number[]}
  */
 var productExceptSelf = function(nums) {
-    const left = [];
     let product = 1;
+    const arr = [];
     for (let i = 0; i < nums.length; i++) {
-        left.push(product);
+        arr.push(product);
         product *= nums[i];
     }
     
-    const res = [];
     product = 1;
-    for (let j = nums.length - 1; j >= 0; j--) {
-        left[j] *= product;
-        product *= nums[j];
+    for (let i = nums.length - 1; i >= 0; i--) {
+        arr[i] *= product;
+        product *= nums[i];
     }
-    return left;
+    
+    return arr;
 };
-//[ 1,  2, 3, 4]
 
-//[ 1,  1, 2, 6]
-//  0   1  2  3
+//[ 1, 2,3,4]
+//[24,12,8,6]
 
-//[1, 4, 12, 24]
-//-4 -3  -2  -1
-
-// 0 + 1 = 1
-// 1 + 2 = 3
-// 2 + 3 = 5
+//[ 1, 1,2,6] product of all numbers left of current
+//[24,12,4,1] product of all numbers right of current
