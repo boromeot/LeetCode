@@ -6,9 +6,10 @@ var isPalindrome = function(s) {
     let l = 0,
         r = s.length - 1;
     
-    while (l <= r) {
+    while (l < r) {
         if (!isAlphaNum(s[l])) {
             l++;
+            continue;
         } else if (!isAlphaNum(s[r])) {
             r--;
         } else {
@@ -18,7 +19,7 @@ var isPalindrome = function(s) {
         }
     }
     return true;
-};
+}
 
 function isAlphaNum(c) {
     return (
