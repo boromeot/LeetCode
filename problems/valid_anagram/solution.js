@@ -8,27 +8,21 @@ var isAnagram = function(s, t) {
         return false;
     }
     
-    let sMap = new Map();
+    const map1 = new Map();
     
     for (let i = 0; i < s.length; i++) {
-        let c = s[i];
-        sMap.has(c) ? sMap.set(c, sMap.get(c) + 1) : sMap.set(c, 1);
-    }
-    
-    let tMap = new Map();
-    
-    for (let j = 0; j < t.length; j++) {
-        let c = t[j];
-        tMap.has(c) ? tMap.set(c, tMap.get(c) + 1) : tMap.set(c, 1);
-    }
-    
-    
-    for (let [k, v] of sMap) {
-        if (tMap.get(k) !== v) {
-            return false;
+        const c = s[i];
+        if (!map1.has(c)) {
+            map1.set(c, 1);
+        } else {
+            map1.set(c, map1.get(c) + 1);
         }
+    }
+    
+    for (i = 0; i < t.length; i++) {
+        const c = t[i];
+        if (!map1.get(c)) return false;
+        map1.set(c, map1.get(c) - 1);
     }
     return true;
 };
-    // zzzzzzzzzzzzzzzzzzzzaaaaaaaaaaaaaaaaaaaa
-    // aaaaaaaaaaaaaaaaaaaazzzzzzzzzzzzzzzzzzzz
