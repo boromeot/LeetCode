@@ -3,17 +3,25 @@
  * @param {number} k
  * @return {number}
  */
-var characterReplacement = function(s, k) {
-    const map = new Map();
-    let l = 0;
-    let max = 0;
-    for (let r = 0; r < s.length; r++) {
-        map.get(s[r]) ? map.set(s[r], map.get(s[r]) + 1) : map.set(s[r], 1);
-        while ((r - l + 1) - Math.max(...map.values()) > k) {
-            map.set(s[l], map.get(s[l]) - 1);
-            l++;
-        }
-        max = Math.max(max, (r - l + 1));
+const characterReplacement = (s, k) => {
+  let left = 0;
+  let right = 0;
+  let maxCharCount = 0;
+  const visited = {};
+
+  while (right < s.length) {
+    const char = s[right];
+    visited[char] = visited[char] ? visited[char] + 1 : 1;
+
+    if (visited[char] > maxCharCount) maxCharCount = visited[char];
+
+    if (right - left + 1 - maxCharCount > k) {
+      visited[s[left]]--;
+      left++;
     }
-    return max;
-};// AABABBA
+
+    right++;
+  }
+
+  return right - left;
+};
