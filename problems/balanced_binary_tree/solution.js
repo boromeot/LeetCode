@@ -12,20 +12,14 @@
  */
 var isBalanced = function(root) {
     return dfs(root)[0];
-    
-    
     function dfs(root) {
-        if (!root) {
-            return [true, 0];
-        }
+        if (!root) return [true, 0];
         
-        let left = dfs(root.left);
-        let right = dfs(root.right);
+        const l = dfs(root.left);
+        const r = dfs(root.right);
         
-        let balanced = Math.abs(left[1] - right[1]) <= 1 && left[0] && right[0];
-        
-        return [balanced, Math.max(left[1], right[1]) + 1];
-        
+        const balanced = l[0] && r[0] && Math.abs(l[1] - r[1]) <= 1;
+        const depth = Math.max(l[1], r[1]) + 1;
+        return [balanced, depth];
     }
-    
 };
