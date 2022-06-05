@@ -11,12 +11,16 @@
  * @param {TreeNode} q
  * @return {boolean}
  */
-
-
 var isSameTree = function(p, q) {
-    if (!p && !q) return true;
-    if (!p || !q) return false
-    if (p.val !== q.val) return false;
-    
-    return (isSameTree(p.left, q.left) && isSameTree(p.right, q.right));
+    return dfs(p, q);
+    function dfs(root1, root2) {
+        if (!root1 && !root2) return true;
+        if (!root1 && root2) return false;
+        if (root1 && !root2) return false;
+        
+        let l = dfs(root1.left, root2.left);
+        let r = dfs(root1.right, root2.right);
+        
+        return l && r && root1.val === root2.val;
+    }
 };
