@@ -13,15 +13,15 @@
  */
 var kthSmallest = function(root, k) {
     const sorted = [];
-    
     dfs(root);
+    console.log(sorted)
     return sorted[k - 1];
     
     function dfs(root) {
         if (!root) return;
         dfs(root.left);
+        if (sorted.length === k) return;
         sorted.push(root.val);
         dfs(root.right);
     }
-    
-}
+};
