@@ -11,16 +11,14 @@
  * @return {number}
  */
 var goodNodes = function(root) {
-    let count = 0;
+    let res = 0;
     dfs(root, root.val);
-    return count;
-    
-    function dfs(root, maxVal) {
+    return res;
+    function dfs(root, max) {
         if (!root) return;
-        
-        if (root.val >= maxVal) count++;
-        dfs(root.left, Math.max(root.val, maxVal));
-        dfs(root.right, Math.max(root.val, maxVal));
+        if (root.val >= max) res++;
+        max = Math.max(max, root.val);
+        dfs(root.left, max);
+        dfs(root.right, max);
     }
-    
 };
