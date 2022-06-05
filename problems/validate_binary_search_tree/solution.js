@@ -11,18 +11,16 @@
  * @return {boolean}
  */
 var isValidBST = function(root) {
-    let left = Number.NEGATIVE_INFINITY,
-        right = Number.POSITIVE_INFINITY;
+    //must keep track of some info between each recusive call
+    let left = -Infinity,
+        right = Infinity;
     
     return dfs(root, left, right);
-    
     function dfs(root, left, right) {
         if (!root) return true;
+        if (root.val >= right) return false;
+        if (root.val <= left) return false;
         
-        if (root.val <= left || root.val >= right) return false;
-        
-        return (dfs(root.left, left, root.val) && dfs(root.right, root.val, right));
+        return dfs(root.left, left, root.val) && dfs(root.right, root.val, right);
     }
-};//        6
-//        4   8
-//       3 5 7 9
+};
