@@ -5,16 +5,17 @@
  *    this.neighbors = neighbors === undefined ? [] : neighbors;
  * };
  */
-
+// 1 <--> 2
 /**
  * @param {Node} node
  * @return {Node}
  */
-var cloneGraph = function(node) {
-    if (!node) return null;
+var cloneGraph = function(root) {
+    if (!root) return null;
     const oldToNew = new Map();
+    return dfs(root);
     
-    const dfs = node => {
+    function dfs(node) {
         if (oldToNew.has(node)) {
             return oldToNew.get(node);
         }
@@ -23,10 +24,9 @@ var cloneGraph = function(node) {
         oldToNew.set(node, copy);
         
         for (let i = 0; i < node.neighbors.length; i++) {
-            const neighbor = node.neighbors[i];
-            copy.neighbors.push(dfs(neighbor));
+            const neighborCopy = dfs(node.neighbors[i]);
+            copy.neighbors.push(neighborCopy);
         }
         return copy;
     }
-    return dfs(node); 
 };
