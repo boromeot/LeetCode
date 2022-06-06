@@ -3,31 +3,39 @@
  * @return {number}
  */
 var maxAreaOfIsland = function(grid) {
-    const [rLen, cLen] = [grid.length, grid[0].length];
-    const visited = new Set();
-    let max = 0;
+    const directions = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+    const ROWS = grid.length,
+          COLS = grid[0].length;
+    let maxArea = 0;
     
-    const dfs = (r, c) => {
-        const key = r.toString() + ',' + c.toString();
-        if (r >= rLen || r < 0 ||
-            c >= cLen || c < 0 ||
-            grid[r][c] === 0 || 
-            visited.has(key)) 
-        {
-            return 0;
+    for (let i = 0; i < ROWS; i++) {
+        for (let j = 0; j < COLS; j++) {
+            if (grid[i][j] === 1) {
+                bfs(i, j);
+            }
         }
-        visited.add(key);
-        return (1 + dfs(r, c + 1)
-                  + dfs(r, c - 1)
-                  + dfs(r + 1, c)
-                  + dfs(r - 1, c));
+    }
+    return maxArea;
+
+    function bfs(r, c) {
+        const q = [[r, c]];
         
+        let area = 1;
+        grid[r][c] = 0;
+        
+        while (q.length > 0) {
+            const [row, col] = q.shift();
+            for (const [dr, dc] of directions) {
+                const [adjRow, adjCol] = [row + dr, col + dc]; //Bit of a misnomer because only one axis is changing
+                if (adjRow >= 0 && adjRow < ROWS &&
+                    adjCol >= 0 && adjCol < COLS &&
+                    grid[adjRow][adjCol] === 1) {
+                    area++;
+                    q.push([adjRow, adjCol]);
+                    grid[adjRow][adjCol] = 0;
+                }
+            }
+        }        
+        maxArea = Math.max(maxArea, area);
     }
-    
-    for (let i = 0; i < rLen; i++) {
-        for (let j = 0; j < cLen; j++) {
-            max = Math.max(max, dfs(i, j));
-        }
-    }
-    return max;
 };
