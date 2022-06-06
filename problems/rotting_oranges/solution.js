@@ -3,47 +3,60 @@
  * @return {number}
  */
 var orangesRotting = function(grid) {
-    const rLen = grid.length,
-          cLen = grid[0].length;
-    const q = [];
-    let time = 0,
-        fresh = 0,
-        rotten = 0;
+    const DIRECTIONS = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+    const ROWS = grid.length,
+          COLS = grid[0].length;
     
-    for (let i = 0; i < rLen; i++) {
-        for (let j = 0; j < cLen; j++) {
-            if (grid[i][j] === 1) fresh++;
-            if (grid[i][j] === 2) {
-                q.push([i, j]);
-                rotten++;
+    const q = [];
+    let t = 0;
+    
+    let orangeCount = 0,
+        rottenCount = 0;
+    
+    // O(n * m)
+    for (let i = 0; i < ROWS; i++) {
+        for (let j = 0; j < COLS; j++) {
+            if (grid[i][j] !== 0) {
+                if ( grid[i][j] === 2) {
+                    q.push([i, j]);
+                    rottenCount++;
+                }
+                orangeCount++;
             }
         }
     }
     
-    while (q.length > 0 && fresh > 0) {
-        const qLen = q.length;
-        for (let i = 0; i < qLen; i++) {
-            const [r, c] = q.shift();
-            const directions = [[1, 0], [-1, 0], [0, 1], [0, -1]];
-            for (let [dr, dc] of directions) {
-                let [newR, newC] = [r + dr, c + dc];
-                if (newR < rLen && newR >= 0 &&
-                    newC < cLen && newC >= 0 &&
-                    grid[newR][newC] === 1
-                   )
-                {
-                    grid[newR][newC] = 2;
-                    fresh--;
-                    rotten++;
-                    q.push([newR, newC]);
-                }
-            }  
-        }
-        time++;
+    bfs();
+    if (rottenCount === orangeCount) {
+        return t;
+    } else {
+        return -1;
     }
-    console.log(rotten, fresh, time);
-    return fresh > 0 ? -1 : time;
+    
+    function bfs() {
+        while (q.length > 0 && rottenCount !== orangeCount) {
+            const qLen = q.length;
+            for (let i = 0; i < qLen; i++) {
+                const [r, c] = q.shift();
+                for (const [dr, dc] of DIRECTIONS) { // delta r, delta c
+                    const [adjRow, adjCol] = [r + dr, c + dc];
+                    //Verifiy contraints of adjacent tiles
+                    if (adjRow >= 0 && adjRow < ROWS &&
+                        adjCol >= 0 && adjCol < COLS &&
+                        grid[adjRow][adjCol] === 1) {
+                        rottenCount++;
+                        grid[adjRow][adjCol] = 2;
+                        q.push([adjRow, adjCol]);
+                    } else continue;
+                }
+            }
+            t++;
+        }
+    }
+    
 };
-// [[2,1,1],
-//  [1,1,0],
-//  [0,1,1]]
+// How many oranges there are ?
+// Where are the rotten ones at t = 0
+// Add the rotten ons to queue for bfs
+// after each iteration of bfs set t = t + 1
+// once bfs is completed return t if rottenCount === OrangeCount else -1
