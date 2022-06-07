@@ -4,39 +4,40 @@
  * @return {number[]}
  */
 var findOrder = function(numCourses, prerequisites) {
-    let adjMap = {};
+    const visited = new Set();
+    const path = new Set();
+    
+    const ctp = {};
+    const topologicalOrdering = [];
     
     for (let i = 0; i < numCourses; i++) {
-        adjMap[i] = [];
+        ctp[i] = [];
     }
     
-    for (let [c, p] of prerequisites) {
-        adjMap[c].push(p);
+    for (let [course, prereq] of prerequisites) {
+        ctp[course].push(prereq);
     }
     
-    const res = [];
-    const visited = new Set(),
-          cycle = new Set();
-    
-    for (let crs = 0; crs < numCourses; crs++) {
-        if (!dfs(crs)) return [];
+    for (let i = 0; i < numCourses; i++) {
+        if (!dfs(i)) return [];
     }
-    return res;
+    return topologicalOrdering;
     
-    function dfs(crs) {
-        if (cycle.has(crs)) return false;
-        if (visited.has(crs)) return true;
+    function dfs(course) {
+        if (path.has(course)) return false; //If this course is a part of a cycle
+        if (visited.has(course)) return true;
+  
+        path.add(course);
         
-        cycle.add(crs);
-        
-        for (let pre of adjMap[crs]) {
-            if (!dfs(pre)) {
+        for (let prereq of ctp[course]) {
+            if (!dfs(prereq)) {
                 return false;
-            }
+            } // meanign if the prereq is part of a cycle
         }
-        cycle.delete(crs);
-        visited.add(crs);
-        res.push(crs);
+        path.delete(course);
+        visited.add(course);
+        topologicalOrdering.push(course);
         return true;
     }
+     
 };
