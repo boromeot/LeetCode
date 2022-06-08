@@ -5,23 +5,16 @@
 var solve = function(board) {
     const ROWS = board.length,
           COLS = board[0].length;
+
     
     for (let i = 0; i < ROWS; i++) {
-        if (board[i][0] === 'O') {
-            dfs(i, 0);
-        }
-        if (board[i][COLS - 1] === 'O') {
-            dfs(i, COLS - 1);
-        }
+        dfs(i, 0);
+        dfs(i, COLS - 1);
     }
     
     for (let j = 0; j < COLS; j++) {
-        if (board[0][j] === 'O') {
-            dfs(0, j);
-        }
-        if (board[ROWS - 1][j] === 'O') {
-             dfs(ROWS - 1, j);
-        }
+        dfs(0, j);
+        dfs(ROWS - 1, j);
     }
     
     for (let i = 0; i < ROWS; i++) {
@@ -47,7 +40,6 @@ var solve = function(board) {
         dfs(r - 1, c);
         dfs(r, c + 1);
         dfs(r, c - 1);
-        return;
     }
     
 };
