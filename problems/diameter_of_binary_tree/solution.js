@@ -11,19 +11,19 @@
  * @return {number}
  */
 var diameterOfBinaryTree = function(root) {
-    let diameter = 0;
+    let diameter = 0;    
     maxDepth(root);
     return diameter;
     
     function maxDepth(root) {
         if (!root) return 0;
         
-        let left = maxDepth(root.left);
-        let right = maxDepth(root.right);
+        let l = maxDepth(root.left);
+        let r = maxDepth(root.right);
         
-        diameter = Math.max(diameter, left + right);
+        diameter = Math.max(diameter, l + r);
         
-        return Math.max(left, right) + 1;
+        return Math.max(l, r) + 1;
         
     }
     
