@@ -2,50 +2,54 @@
  * @param {number[][]} points
  * @return {number}
  */
-var minCostConnectPoints = function(points) {    
-    //Prim's algo
-    const n = points.length;
-    const heap = new MinHeap() // [cost, node]
+var minCostConnectPoints = function(points) { //Prims
+    const heap = new MinHeap();
     const visited = new Set();
+    heap.insert([0, 0]); // [Weight, nodeIndex] of points
     let weight = 0;
     
-    heap.insert([0, 0])
-
-    while (visited.size < n) {
-        const [distance, nodeIndex] = heap.poll();
-        if (visited.has(nodeIndex)) continue;
-        weight += distance;
-        visited.add(nodeIndex);
-        const currPoint = points[nodeIndex];
-        
-        for (let i = 0; i < n; i++) {
-            if (i === 0 || visited.has(i)) continue;
-            const point = points[i];
-            const distance = Math.abs(point[0] - currPoint[0]) + Math.abs(point[1] - currPoint[1]);
-            heap.insert([distance, i]);
+    prims();
+    return weight;
+    
+    function prims() {
+        while (visited.size < points.length) {
+            const [distance, nodeIndex] = heap.poll();
+            if (visited.has(nodeIndex)) continue;
+            
+            visited.add(nodeIndex);
+            weight += distance;
+            const [x1, y1] = points[nodeIndex];
+            
+            for (let adjNodeIndex = 0; adjNodeIndex < points.length; adjNodeIndex++) {
+                if (visited.has(adjNodeIndex)) continue;
+                const [x2, y2] = points[adjNodeIndex];
+                const adjDistance = Math.abs(x1 - x2) + Math.abs(y1 - y2);
+                heap.insert([adjDistance, adjNodeIndex]);
+            }
         }
     }
-
-    return weight;
     
 };
 
-
 class MinHeap {
-    constructor(data = []) {
-        this.data = data;
-        this.heapify();
+    constructor() {
+        this.data = [];
     }
     
-    heapify() {
-        if (this.size() <= 1) return;
-        for (let i = this.size() - 1; i >= 0; i--) {
-            this.bubbleDown(i);
+    poll() {
+        if (this.size() <= 0) return null;
+        
+        const min = this.data[0];
+        const last = this.data.pop();
+        if (this.size() > 0) {
+            this.data[0] = last;
+            this.bubbleDown(0);
         }
+        return min;
     }
     
     bubbleDown(i) {
-        let n = this.size();
+        const n = this.size();
         let mindex = i;
         
         while (i < n) {
@@ -64,13 +68,16 @@ class MinHeap {
             this.swap(mindex, i);
             i = mindex;
         }
-        
+    }
+    
+    insert(val) {
+        this.data.push(val);
+        this.bubbleUp(this.size() - 1);
     }
     
     bubbleUp(i) {
         while (i > 0) {
             let pIndex = Math.floor((i - 1) / 2);
-            
             if (this.data[i][0] < this.data[pIndex][0]) {
                 this.swap(i, pIndex);
                 i = pIndex;
@@ -80,26 +87,6 @@ class MinHeap {
         }
     }
     
-    poll() {
-        if (this.size() <= 0) return null
-        const res = this.data[0];
-        const last = this.data.pop();
-        if (this.size() > 0) {
-            this.data[0] = last;
-            this.bubbleDown(0);
-        }
-        return res;
-    }
-    
-    peek(i = 0) {
-        return this.data[i];
-    }
-    
-    insert(val) {
-        this.data.push(val);
-        this.bubbleUp(this.size() - 1);
-    }
-    
     swap(i, j) {
         [this.data[i], this.data[j]] = [this.data[j], this.data[i]];
     }
@@ -107,5 +94,4 @@ class MinHeap {
     size() {
         return this.data.length;
     }
-    
 }
