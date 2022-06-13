@@ -6,10 +6,10 @@ var rob = function(nums) {
     let rob1 = 0,
         rob2 = 0;
     
-    for (let n of nums) {
-        temp = Math.max(n + rob1, rob2);
-        rob1 = rob2;
-        rob2 = temp;
+    for (let i = 0; i < nums.length; i++) {
+        let temp = rob2;
+        rob2 = Math.max(rob1 + nums[i], rob2);
+        rob1 = temp;
     }
     return rob2;
 };
