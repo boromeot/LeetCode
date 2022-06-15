@@ -12,33 +12,59 @@
 var reorderList = function(head) {
     let slow = head,
         fast = head.next;
-
+    //Find the mid point of the list
     while (fast && fast.next) {
         slow = slow.next;
         fast = fast.next.next;
     }
-    
-    let second = slow.next;
-    let prev = null;
+    let temp = slow.next;
     slow.next = null;
-    while (second) {
-        let temp = second.next;
-        second.next = prev;
-        prev = second;
-        second = temp;
+    let mid = temp;
+    
+    // Reverse the second half of the list
+    let prev = null;
+    while (mid) {
+        const newHead = mid.next;
+        mid.next = prev;
+        prev = mid;
+        mid = newHead;
     }
-    let first = head;
-    second = prev;
-    while (second) {
-        let tmp1 = first.next;
-        let tmp2 = second.next;
-        first.next = second;
-        second.next = tmp1;
-        first = tmp1;
-        second = tmp2;
+
+    let head2 = prev;
+    let curr = head;
+    
+    // Merge the two list
+    while (head2) {
+        let t = curr.next,
+            t2 = head2.next;
+        
+        curr.next = head2;
+        head2.next = t;
+        curr = t;
+        head2 = t2;
     }
     
-}; // [1, 2, 3, 4] 5, n
-//     s  f 
-//        s     f
-//           s        f
+    return head;
+}
+/*
+
+1 -> 2 -> 3 -> 4 -> 5 -> 6
+s
+     f
+     s         f
+          s              f 
+1 -> 6 -> 2 -> 5 -> 3 -> 4
+1 -> 2 -> 3
+6 -> 5 -> 4
+
+1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
+s
+     f
+     s         f
+          s              f
+               s                  f
+1 -> 7 -> 2 -> 6 -> 3 -> 5 -> 4
+1 -> 2 -> 3 -> 4
+7 -> 6 -> 5
+
+*/
