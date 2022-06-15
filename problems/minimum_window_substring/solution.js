@@ -3,39 +3,49 @@
  * @param {string} t
  * @return {string}
  */
+/*
+reqLen = 0 -> 1
+A, B
+l
+r
+min = Infinity 
+ A : 1*/
 var minWindow = function(s, t) {
-    
-    const map = new Map();
-    for (let i = 0; i < t.length; i++) {
-        const c = t[i];
-        map.get(c) ? map.set(c, map.get(c) + 1) : map.set(c, 1);
-    }
-
-    let subString = '';
+    if (t.length > s.length) return '';
     
     let reqLen = t.length;
+    const map = {};
+    
+    for (let c of t) {
+        map[c] === undefined ? map[c] = 1 : map[c]++;
+    }
     
     let l = 0,
         r = 0;
     
-    while (r <= s.length) {
-        const c = s[r];
-        if (map.get(c) > 0) reqLen--;
-        if (map.has(c)) map.set(c, map.get(c) - 1);
-        
-        if (reqLen <= 0) {
-            while ((map.get(s[l]) < 0 || map.get(s[l]) === undefined) && l < s.length) {
-                if (map.get(s[l]) < 0) map.set(s[l], map.get(s[l]) + 1);
-                l++;
-            }
-            
-            if (subString) {
-                if (r - l + 1 < subString.length) subString = s.slice(l, r + 1);
-            } else {
-                subString = s.slice(l, r + 1);
-            }
+    let minL, minR;
+    let minLen = Infinity;
+    
+    while (r < s.length) {
+        if (map[s[r]] > 0) {
+            reqLen--;
         }
+        map[s[r]]--;
+        while (reqLen === 0) {
+            if (r - l + 1 < minLen) {
+                minL = l,
+                minR = r;        
+                minLen = r - l + 1;
+            }
+            if (map[s[l]] === 0) {
+                reqLen++;
+            }
+            map[s[l]]++;
+            l++;
+        }
+        
         r++;
     }
-    return subString;
+    if (minL === undefined || minR === undefined) return '';
+    return s.slice(minL, minR + 1);
 };
