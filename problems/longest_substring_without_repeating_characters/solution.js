@@ -4,18 +4,25 @@
  */
 var lengthOfLongestSubstring = function(s) {
     const set = new Set();
+
+    let l = 0,
+        r = 0;
     
-    let longestSeq = 0;
-    let l = 0;
-    
-    for (let r = 0; r < s.length; r++) {
-        while (set.has(s[r])) {
+    let res = 0;
+    while (r < s.length) {
+        while (set.has(s[r]) && l < r) {
             set.delete(s[l]);
             l++;
         }
-        longestSeq = Math.max(longestSeq, r - l + 1);
+        
         set.add(s[r]);
+        res = Math.max(res, set.size);
+        r++;
     }
-    
-    return longestSeq;
+    return res;
 };
+
+// "pwwkew"
+//   l
+//    r
+// set = [b]
