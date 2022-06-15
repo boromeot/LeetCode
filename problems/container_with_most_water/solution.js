@@ -2,24 +2,32 @@
  * @param {number[]} height
  * @return {number}
  */
-var maxArea = function(height) {
+var maxArea = function(heights) {
     let max = 0;
     
     let l = 0,
-        r = height.length - 1;
-    // height = Math.min(height[l], height[r]) -> Math.min(1, 7) -> 1
-    // width = r - l -> 8 - 0 -> 8
+        r = heights.length - 1;
     
     while (l < r) {
-        let h = Math.min(height[l], height[r]);
-        let w = r - l;
-        let area = h * w;
-        max = Math.max(max, area);
-        if (height[l] < height[r]) {
+        const height = Math.min(heights[l], heights[r]);
+        const width = r - l;
+        max = Math.max(max, height * width);
+        
+        if (heights[l] < heights[r]) {
             l++;
         } else {
-            r--;        
+            r--;
         }
     }
+    
     return max;
 };
+
+// [1,8,6,2,5,4,8,3,7]
+//    l           r
+
+// []
+
+// area = height * width
+// height is Math.min(leftBar, rightBar)
+// width is distance between them => r - l
