@@ -11,22 +11,37 @@
  * @return {ListNode}
  */
 var mergeTwoLists = function(list1, list2) {
-    temp = new ListNode();
-    tail = temp;
-    while (list1 && list2) {
-        if (list1.val < list2.val) {
-            tail.next = list1;
-            list1 = list1.next;
+    let head1 = list1,
+        head2 = list2;
+    
+    let dummy = new ListNode();
+    let curr = dummy;
+    
+    while (head1 && head2) {
+        if (head1.val < head2.val) {
+            curr.next = new ListNode(head1.val);
+            head1 = head1.next;
         } else {
-            tail.next = list2;
-            list2 = list2.next;
+            curr.next = new ListNode(head2.val);
+            head2 = head2.next;
         }
-        tail = tail.next;
+        curr = curr.next;
     }
-    if (list1) {
-        tail.next = list1;
-    } else if (list2) {
-        tail.next = list2;
+    
+    if (head1) {
+        curr.next = head1;
+    } else if (head2) {
+        curr.next = head2;
     }
-    return temp.next;
+    
+    return dummy.next;
+    
 };
+
+// 1 -> 2 -> 4 -> n
+// 1 -> 3 -> 4 -> n
+/*
+
+ 
+
+*/
