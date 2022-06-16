@@ -12,24 +12,21 @@
  * @return {Node}
  */
 var copyRandomList = function(head) {
-    let oldToNew = new Map();
+    const oldToNew = new Map();
     
-    oldToNew.set(null, null);
-
-    let curr = head;
-    while (curr) {
-        let copy = new ListNode(curr.val);
-        oldToNew.set(curr, copy);
-        curr = curr.next;
+    return dfs(head);
+    
+    function dfs(head) {
+        if (!head) return null;
+        if (oldToNew.get(head)) {
+            return oldToNew.get(head);
+        }
+        
+        const copy = new Node(head.val);
+        oldToNew.set(head, copy);
+        
+        copy.next = dfs(head.next);
+        copy.random = dfs(head.random);
+        return copy;
     }
-    
-    curr = head;
-    while (curr) {
-        copy = oldToNew.get(curr);
-        copy.next = oldToNew.get(curr.next);
-        copy.random = oldToNew.get(curr.random);
-        curr = curr.next;
-    }
-    return oldToNew.get(head);
-    
 };
