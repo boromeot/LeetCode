@@ -11,16 +11,27 @@
  * @return {boolean}
  */
 var isBalanced = function(root) {
-    return maxDepth(root)[0]
+    return dfs(root)[0];
     
-    function maxDepth(root) {
-        if (!root) return [true, 0];
-    
-        let l = maxDepth(root.left),
-            r = maxDepth(root.right);
+    function dfs(root) {
+        if (!root) return [true, 0]; // [isBalanced, depth]
         
-        let balanced = Math.abs(l[1] - r[1]) <= 1 && l[0] && r[0];
-        let depth = Math.max(l[1], r[1]) + 1;
-        return [balanced, depth];
+        let [leftIsBalanced, leftDepth] = dfs(root.left);
+        let [rightIsBalanced, rightDepth] = dfs(root.right);
+        
+        let isBalanced = (leftIsBalanced && rightIsBalanced) && Math.abs(leftDepth - rightDepth) <= 1;
+        let depth = Math.max(leftDepth, rightDepth) + 1;
+        
+        return [isBalanced, depth];
     }
 };
+
+/*
+
+   1
+  2 3
+ 4
+5
+
+
+*/
