@@ -11,20 +11,27 @@
  * @return {number[][]}
  */
 var levelOrder = function(root) {
+    if (!root) return [];
     const res = [];
-    const q = [];
-    if (root) q.push(root);
     
-    while (q.length > 0) {
-        const level = [];
-        const qLen = q.length;
-        for (let i = 0; i < qLen; i++) {
-            const node = q.shift();
-            level.push(node.val);
-            if (node.left) q.push(node.left);
-            if (node.right) q.push(node.right);
-        }
-        res.push(level);
-    }
+    bfs();
+    
     return res;
+    
+    function bfs() {
+        const q = [];
+        q.push(root);
+        
+        while (q.length > 0) {
+            const qLen = q.length;
+            const level = [];
+            for (let i = 0; i < qLen; i++) {
+                let node = q.shift();
+                level.push(node.val);
+                if (node.left) q.push(node.left);
+                if (node.right) q.push(node.right);
+            }
+            res.push(level);
+        }
+    }
 };
