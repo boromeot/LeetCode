@@ -13,18 +13,19 @@
  */
 var isSubtree = function(root, subRoot) {
     if (!root) return false;
-    if (isSameTree(root, subRoot)) return true;
-    return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+    if (isSametree(root, subRoot)) return true;
     
-    function isSameTree(p, q) {
+    let left = isSubtree(root.left, subRoot);
+    let right = isSubtree(root.right, subRoot);
+    return left || right;
+    
+    function isSametree(p, q) {
         if (!p && !q) return true;
         if (!p || !q) return false;
         if (p.val !== q.val) return false;
         
-        let l = isSameTree(p.left, q.left);
-        let r = isSameTree(p.right, q.right);
-        
-        return l && r;
-        
+        let left = isSametree(p.left, q.left);
+        let right = isSametree(p.right, q.right);
+        return left && right;
     }
 };
