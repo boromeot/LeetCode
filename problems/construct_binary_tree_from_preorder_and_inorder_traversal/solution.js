@@ -12,38 +12,11 @@
  * @return {TreeNode}
  */
 var buildTree = function(preorder, inorder) {
-    let p = 0,
-        i = 0;
+    if (preorder.length === 0 || inorder.length === 0) return null;
     
-    function build(stop) {
-        if (inorder[i] != stop) {
-            let root = new TreeNode(preorder[p]);
-            p++;
-            root.left = build(root.val)
-            i++
-            root.right = build(stop)
-            return root
-        }
-        return null
-    }
-    return build()
+    const root = new TreeNode(preorder[0]); // Root of a tree is always the first node in preorder
+    const mid = inorder.indexOf(root.val);
+    root.left = buildTree(preorder.slice(1, mid + 1), inorder.slice(0, mid));
+    root.right = buildTree(preorder.slice(mid + 1), inorder.slice(mid + 1));
+    return root;
 };
-
-/*
-pre = root, left, right
-in = left, root, right
-
-     3
-   9   20
-      15 7
-
-[3,9,20,15,7] pre
-     3
-  9    20
-15 7
-
-[9,3,15,20,7] in
-     9
-   3  15
- 20 7
-*/
