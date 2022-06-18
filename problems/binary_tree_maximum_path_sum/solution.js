@@ -11,19 +11,21 @@
  * @return {number}
  */
 var maxPathSum = function(root) {
-    let max = root.val;
+    if (!root) return 0;
+    let max = -Infinity;
     dfs(root);
     return max;
     function dfs(root) {
-        //[potentialGains, sumWithMeAsAncestor]
         if (!root) return 0;
         
-        let leftMax = Math.max(dfs(root.left), 0);
-        let rightMax = Math.max(dfs(root.right), 0);
-        let splitMax = leftMax + rightMax + root.val;
+        let left = Math.max(dfs(root.left), 0);
+        let right = Math.max(dfs(root.right), 0);
         
+        let splitMax = left + right + root.val;
         max = Math.max(max, splitMax);
         
-        return Math.max(leftMax, rightMax) + root.val;
+        return Math.max(left, right) + root.val;
+        
     }
+    
 };
