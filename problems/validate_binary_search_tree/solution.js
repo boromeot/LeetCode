@@ -11,16 +11,18 @@
  * @return {boolean}
  */
 var isValidBST = function(root) {
-    //must keep track of some info between each recusive call
-    let left = -Infinity,
-        right = Infinity;
     
-    return dfs(root, left, right);
-    function dfs(root, left, right) {
+    return dfs(root, -Infinity, Infinity);
+    
+    function dfs(root, leftMin, rightMax) {
         if (!root) return true;
-        if (root.val >= right) return false;
-        if (root.val <= left) return false;
+        if (root.val >= rightMax) return false;
+        if (root.val <= leftMin) return false;
         
-        return dfs(root.left, left, root.val) && dfs(root.right, root.val, right);
+        let left = dfs(root.left, leftMin, root.val);
+        let right = dfs(root.right, root.val, rightMax);
+        
+        return left && right;
     }
+    
 };
