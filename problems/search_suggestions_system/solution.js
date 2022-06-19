@@ -6,6 +6,9 @@
 var suggestedProducts = function(products, searchWord) {
     const res = [];
     products.sort();
+    
+    //mou, mouse
+    //mouse, mou
         
     for (let i = 0; i < searchWord.length; i++) {
         const preFixRes = [];
@@ -20,5 +23,23 @@ var suggestedProducts = function(products, searchWord) {
         res.push(preFixRes);
     }
     return res;    
+    
+//     function binarySearch(array, preFix) {
+//         let l = 0,
+//             r = array.length - 1;
+        
+//         while (l <= r) {
+//             const m = Math.floor((l + r) / 2);
+            
+//             if (array[m].localCompare(preFix) >= 0) {
+//                 r = m;
+//             } else {
+//                 l = m + 1;
+//             }
+            
+//         }
+//         return l;
+//     }
+    
 };
 // o < u
