@@ -4,48 +4,46 @@
  * @return {boolean}
  */
 var validTree = function(n, edges) {
-    const rank = new Array(n).fill(1);
-    const parents = new Array(n);
-    let components = n; //I have n components 
+    let parent = new Map(),
+        rank = new Map();
+    let components = n;
     
     for (let i = 0; i < n; i++) {
-        parents[i] = i;
+        parent.set(i, i);
+        rank.set(i, 1);
     }
     
-    
-    for (let [n1, n2] of edges) {
-        if (!union(n1, n2)) return false;
+    for (let [v1, v2] of edges) {
+        if (!union(v1, v2)) return false;
     }
-    return components <= 1;
+
+    return components === 1;
     
-    
-    
-    function find(node) {
-        let p = parents[node];
+    function find(node) { // Given node return the root
+        let p = parent.get(node);
         
-        while (p !== parents[p]) { // While p is not its own parent.
-            parents[p] = parents[parents[p]];
-            p = parents[p];
+        while (p !== parent.get(p)) { // While p is not the root
+            parent.set(p, parent.get(parent.get(p))); // Path compression
+            p = parent.get(p); // Traverse up the tree
         }
         return p;
     }
     
-    function union(n1, n2) { //Unions the graph of n1 and n2. Returns true if the operation was successful,                                      false otherwise.
+    function union(n1, n2) { // Combines two unconnected components
         let p1 = find(n1),
             p2 = find(n2);
         
-        if (p1 === p2) return false; //Union impossible because the two nodes are already unified.
+        if (p1 === p2) return false; // Unification is not possible because p1 and p2 are already unioned
         
-        if (rank[p1] > rank[p2]) {
-            parents[p2] = p1;
-            rank[p1] += rank[p2];
+        if (rank.get(p1) > rank.get(p2)) {
+            parent.set(p2, p1);
+            rank.set(p1, rank.get(p1) + rank.get(p2));
         } else {
-            parents[p1] = p2;
-            rank[p2] += rank[p1];
+            parent.set(p1, p2);
+            rank.get(p2, rank.get(p1) + rank.get(p2));
         }
         components--;
-        return true;
-        
+        return true; // Unification was possible
     }
     
 };
