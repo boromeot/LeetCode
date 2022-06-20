@@ -1,32 +1,62 @@
+/**
+ * @param {string} beginWord
+ * @param {string} endWord
+ * @param {string[]} wordList
+ * @return {number}
+ */
 var ladderLength = function(beginWord, endWord, wordList) {
-    const wordSet = new Set(wordList)
-    let queue = [beginWord];
-    let steps = 1;
+    wordList.push(beginWord);
+    let adj = {};
     
-    while(queue.length) {
-        const next = [];
+    for (let word of wordList) {
+        adj[word] = [];
+    }
+    
+    for (let i = 0; i < wordList.length; i++) {
+        let word1 = wordList[i];
         
-        // loop over each word in the queue
-        for(let word of queue) {
-            if(word === endWord) return steps;
+        for (let j = i + 1; j < wordList.length; j++) {
+            let word2 = wordList[j];
+            let diff = 0;
             
-            // loop over each char of the word 
-            for(let i = 0; i < word.length; i++) {
-                
-                // and replace the char with letters from [a - z]
-                for(let j = 0; j < 26; j++) {
-                    const newWord = word.slice(0, i) + String.fromCharCode(j + 97) + word.slice(i+1);
-                    
-                    // if the new word exist in the word list add it to the queue
-                    if(wordSet.has(newWord)) {
-                        next.push(newWord);
-                        wordSet.delete(newWord);
+            for (let k = 0; k < word1.length; k++) {
+                if (word1[k] !== word2[k]) diff++;
+                if (diff > 1) break;
+            }
+            
+            if (diff <= 1) {
+                adj[word1].push(word2);
+                adj[word2].push(word1);
+            }
+        }
+    }
+    
+    const q = [beginWord];
+    const visited = new Set();
+    
+    let sequenceLen = 1;
+    
+    if (bfs()) {
+        return sequenceLen;
+    } else {
+        return 0;
+    }
+    
+    function bfs() {
+        while (q.length) {
+            const qLen = q.length;
+            for (let i = 0; i < qLen; i++) {
+                const word = q.shift();
+                if (word === endWord) return true; // Found path to endWord
+                visited.add(word);
+                for (let adjWord of adj[word]) {
+                    if (!visited.has(adjWord)) {
+                        q.push(adjWord);
                     }
                 }
             }
+            sequenceLen++;
         }
-        queue = next
-        steps++;
+        return false; // Did not find path to endWord
     }
-    return 0;    
 };
