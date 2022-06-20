@@ -11,23 +11,22 @@
  * @return {Node}
  */
 var cloneGraph = function(node) {
-    if (!node) return node;
+    if (!node) return null
     
     const oldToNew = new Map();
     
     return dfs(node)
     
-    function dfs(node) {
-        if (oldToNew.has(node)) {
-            return oldToNew.get(node);
-        }
+    function dfs(root) {
+        if (oldToNew.has(root)) return oldToNew.get(root);
         
-        const copy = new Node(node.val);
-        oldToNew.set(node, copy);
+        const copy = new Node(root.val);
+        oldToNew.set(root, copy);
         
-        for (let neighbor of node.neighbors) {
-            copy.neighbors.push(dfs(neighbor));
+        for (let nei of root.neighbors) {
+            copy.neighbors.push(dfs(nei));
         }
         return copy;
     }
+    
 };
