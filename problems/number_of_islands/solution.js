@@ -3,42 +3,39 @@
  * @return {number}
  */
 var numIslands = function(grid) {
+    const DIRECTIONS = [[1, 0], [-1, 0], [0, 1], [0, -1]];
     const ROWS = grid.length,
           COLS = grid[0].length;
-    
     let islands = 0;
-    
     for (let i = 0; i < ROWS; i++) {
         for (let j = 0; j < COLS; j++) {
             if (grid[i][j] === '1') {
-                islands++;
                 bfs(i, j);
+                islands++;
             }
         }
     }
-   
     return islands;
-    
-    function bfs(r, c) {
-        const DIRECTIONS = [[1, 0], [-1, 0], [0, 1], [0, -1]];
-        const q = [[r, c]];
+    function bfs(i, j) {
+        const q = [[i, j]];
+        grid[i][j] = '0';
         
-        while (q.length > 0) {
-            const qLen = q.length;
-            for (let i = 0; i < qLen; i++) {
-                const [row, col] = q.shift();
-                for (let [dr, dc] of DIRECTIONS) {
-                    const [adjR, adjC] = [row + dr, col + dc];
-                    if (adjR >= 0 && adjR < ROWS &&
-                        adjC >= 0 && adjC < COLS &&
-                        grid[adjR][adjC] === '1') {
-                        grid[adjR][adjC] = '0';
-                        q.push([adjR, adjC]);
-                    }
+        while (q.length) {
+            const [row, col] = q.shift();
+            for (let [dr, dc] of DIRECTIONS) {
+                const [adjR, adjC] = [row + dr, col + dc];
+                if (adjR < ROWS && adjR >= 0 &&
+                    adjC < COLS && adjC >= 0 &&
+                    grid[adjR][adjC] === '1') {
+                    q.push([adjR, adjC]);
+                    grid[adjR][adjC] = '0';
                 }
             }
         }
     }
+    
+
+}
     
     function dfs(r, c) {
         if (r < 0 || r >= ROWS ||
@@ -53,4 +50,3 @@ var numIslands = function(grid) {
         dfs(r, c - 1);
     }
     
-};
