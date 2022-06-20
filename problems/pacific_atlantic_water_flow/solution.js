@@ -3,48 +3,49 @@
  * @return {number[][]}
  */
 var pacificAtlantic = function(heights) {
+    const DIRECTIONS = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+    const visited = new Set();
+    
     const ROWS = heights.length,
           COLS = heights[0].length;
     
-    const pacificSet = new Set();
-    const atlanticSet = new Set();
+    const pSet = new Map();
+    const aSet = new Map();
     
     for (let i = 0; i < ROWS; i++) {
-        dfs(i, 0, pacificSet, -1);
-        dfs(i, COLS - 1, atlanticSet, -1);
+        bfs(i, 0, pSet);
+        bfs(i, COLS - 1, aSet);
     }
     
     for (let j = 0; j < COLS; j++) {
-        dfs(0, j, pacificSet, -1);
-        dfs(ROWS - 1, j, atlanticSet, -1);
+        bfs(0, j, pSet);
+        bfs(ROWS - 1, j, aSet);
     }
     
-    const res = [];
-    for (let i = 0; i < ROWS; i++) {
-        for (let j = 0; j < COLS; j++) {
-            if (pacificSet.has(i + ',' + j) && atlanticSet.has(i + ','+ j)) {
-                res.push([i, j]);
-            }
-        }
+    let res = [];
+    for (let key of pSet.keys()) {
+        if (aSet.has(key)) res.push(aSet.get(key));
     }
     return res;
     
-    function dfs(r, c, set, prevHeight) {
-        const DIRECTIONS = [[1, 0], [-1, 0], [0, 1], [0, -1]];
-        if (r < 0 || r >= ROWS ||
-            c < 0 || c >= COLS || 
-            set.has(r + ',' + c) ||
-            heights[r][c] < prevHeight) {
-            return;
+    function bfs(i, j, map) {
+        const q = [[i, j]];
+        map.set(i+','+j, [i, j]);
+        while (q.length) {
+            const [row, col] = q.shift();
+            for (let [dr, dc] of DIRECTIONS) {
+                const [adjR, adjC] = [row + dr, col + dc];
+                if (
+                    !map.has(adjR + ',' + adjC) &&
+                    adjR < ROWS && adjR >= 0 &&
+                    adjC < COLS && adjC >= 0 &&
+                    heights[adjR][adjC] >= heights[row][col]) {
+                    map.set(adjR + ',' + adjC, [adjR, adjC]);
+                    visited.add(adjR + ',' + adjC);
+                    q.push([adjR, adjC]);
+                }
+            }
         }
-        set.add(r + ',' + c);
-        const currHeight = heights[r][c];
-        
-        dfs(r + 1, c, set, currHeight);
-        dfs(r - 1, c, set, currHeight);
-        dfs(r, c + 1, set, currHeight);
-        dfs(r, c - 1, set, currHeight);
         
     }
-    
 };
