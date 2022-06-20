@@ -4,35 +4,37 @@
  * @return {boolean}
  */
 var canFinish = function(numCourses, prerequisites) {
-    const nodeToPrereqs = {};
-    const path = new Set();
+    const adj = {}; // [ crs, [...preReqs]]
     
     for (let i = 0; i < numCourses; i++) {
-        nodeToPrereqs[i] = [];
-    }
-    for (let [n1, n2] of prerequisites) {
-        nodeToPrereqs[n1].push(n2);
+        adj[i] = [];
     }
     
+    for (let [crs, req] of prerequisites) {
+        adj[crs].push(req);
+    }
+    
+    const path = new Set();
     for (let i = 0; i < numCourses; i++) {
         if (!dfs(i)) return false;
     }
     return true;
     
-    function dfs(node) {
-        if (nodeToPrereqs[node].length === 0) {
+    function dfs(i) {
+        if (path.has(i)) return false;
+        if (adj[i].length === 0) {
             return true;
-        }
-        if (path.has(node)) return false;
+        } 
         
-        path.add(node);
+        path.add(i);
         
-        for (let prereq of nodeToPrereqs[node]) {
+        for (let prereq of adj[i]) {
             if (!dfs(prereq)) return false;
         }
-        path.delete(node);
-        nodeToPrereqs[node] = [];
+        path.delete(i);
+        adj[i] = []; //Optimization
         return true;
     }
+    
     
 };
