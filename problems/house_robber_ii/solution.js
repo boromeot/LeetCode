@@ -3,24 +3,28 @@
  * @return {number}
  */
 var rob = function(nums) {
-    if (nums.length === 1) return nums[0];
-    
-    let rob1 = helper(nums.slice(0, nums.length - 1));
-    let rob2 = helper(nums.slice(1));
-    console.log(rob1, rob2);
-    return Math.max(rob1, rob2);
-    
-    function helper(nums) {
-        let rob1 = 0,
-            rob2 = 0;
-        
-        for (let n of nums) {
-            let temp = rob2;
-            rob2 = Math.max(rob2, rob1 + n);
-            rob1 = temp;
-        }
-        return rob2;
+    if (nums.length === 1 || nums.length === 2) {
+        let n1 = nums[0] || 0;
+        let n2 = nums[1] || 0;
+        return Math.max(n1, n2);
     }
+    
+    const len = nums.length;
+    
+    let dp = new Array(nums.length);
+    for (let i = 0; i < nums.length - 1; i++) {
+        let n1 = dp[i - 2] || 0;
+        let n2 = dp[i - 3] || 0;
+        dp[i] = nums[i] + Math.max(n1, n2);
+    }
+    let max1 = Math.max(dp[len - 3], dp[len - 2]);
+    
+    let dp2 = new Array(nums.length);
+    for (let i = 1; i < nums.length; i++) {
+        let n1 = dp2[i - 2] || 0;
+        let n2 = dp2[i - 3] || 0;
+        dp2[i] = nums[i] + Math.max(n1, n2);
+    }
+    let max2 = Math.max(dp2[len - 1], dp2[len - 2]);
+    return Math.max(max1, max2);
 };
-
-// [2,3,2]
