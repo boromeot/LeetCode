@@ -3,22 +3,17 @@
  * @return {number}
  */
 var maxProduct = function(nums) {
-    let min = 1;
-    let max = 1;
-    let answer = Math.max(...nums);
-    console.log(answer);
-    for (let i = 0; i < nums.length; i++) {
-        let n = nums[i];
-        if (nums[i] === 0) {
-            min = 1;
-            max = 1;
-        } else {
-            let tmp = max * n;
-            max = Math.max(n * max, n * min, n);
-            min = Math.min(n * min, tmp, n);
-            answer = Math.max(answer, max);
-        }
+    let res = nums[0];
+    let cMax = 1,
+        cMin = 1;
+    
+    for (let n of nums) {
+        let tmp = cMax;
+        cMax = Math.max(cMax * n, cMin * n, n);
+        cMin = Math.min(tmp * n, cMin * n, n);
+    
+        res = Math.max(res, cMax, cMin);
+        
     }
-    return answer;
+    return res;   
 };
-// [2, 3, -2, 4]
