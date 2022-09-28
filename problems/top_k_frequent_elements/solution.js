@@ -4,25 +4,23 @@
  * @return {number[]}
  */
 var topKFrequent = function(nums, k) {
-    const map = {} // { num: count }
+    const map = new Map();
     
     for (let n of nums) {
-        map[n] ? map[n]++ : map[n] = 1;
+        map.has(n) ? map.set(n, map.get(n) + 1) : map.set(n, 1);
     }
-        
-    // const freq = new Array(nums.length + 1).from([]); // [[], [], []...]
-    const freq = Array.from({ length: nums.length + 1 }, () => [])
-    
-    for (let [num, count] of Object.entries(map)) {
-        freq[count].push(num);
+
+    const arr = new Array(nums.length + 1).fill().map(() => [])
+    for (let [k, v] of map.entries()) {
+        arr[v].push(k);
     }
+    const res = [];
     
-    const res = [];    
-    
-    for (let i = freq.length - 1; i >= 0; i--) {
-        for (let n of freq[i]) {
+    for (let i = arr.length - 1; i >= 0; i--) {
+        for (let n of arr[i]) {
             res.push(n);
             if (res.length === k) return res;
         }
     }
+    
 };
