@@ -4,25 +4,13 @@
  * @return {number}
  */
 var removeElement = function(nums, val) {
-    let deletions = 0;
-    for (let i = 0; i < nums.length; i++) {
-        if (nums[i] === val) {
-            delete nums[i]
-            deletions++;
-        };
-    }
-    nums.sort();
-    return nums.length - deletions;
-
-//     let l = 0,
-//         r = nums.length - 1;
+    let slow = 0;
     
-//     while(l < r) {
-//         if (nums[l] !== undefined) l++;
-//         if (nums[r] === undefined) r++;
-        
-        
-        
-//     }
-
+    for (let fast = 0; fast < nums.length; fast++) {
+        if (nums[fast] !== val) {
+            nums[slow] = nums[fast];
+            slow++;
+        } 
+    }
+    return slow;
 };
