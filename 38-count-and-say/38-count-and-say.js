@@ -2,9 +2,12 @@
  * @param {number} n
  * @return {string}
  */
-var countAndSay = function(n) {    
-    if (n === 1) return "1";
-    return builder(countAndSay(n - 1));
+var countAndSay = function(n) {  
+    let res = "1";
+    for (let i = 1; i < n; i++) {
+        res = builder(res);
+    }
+    return res;
 };
 
 
