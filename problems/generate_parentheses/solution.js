@@ -4,28 +4,19 @@
  */
 var generateParenthesis = function(n) {
     const res = [];
-    
-    const string = [];
-    
-    backtrack(0, 0);
+    bt(n, n, '');
     return res;
     
-    function backtrack(open, closed) {
-        if (open > n || closed > n ||
-            closed > open) {
+    function bt(l, r, str) {
+        if (l === 0 && r === 0) {
+            res.push(str);
             return;
         }
-        
-        if (open === n && closed === n ) {
-            res.push(string.join(''));
-            return;
+        if (l > 0) {
+            bt(l - 1, r, str + '(');
         }
-        
-        string.push('(');
-        backtrack(open + 1, closed);
-        string.pop();
-        string.push(')');
-        backtrack(open, closed + 1);
-        string.pop();
+        if (l < r) {
+            bt(l, r - 1, str + ')');
+        }
     }
 };
