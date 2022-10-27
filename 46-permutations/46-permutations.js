@@ -3,19 +3,22 @@
  * @return {number[][]}
  */
 var permute = function(nums) {
-    if (nums.length === 1) return [nums.slice()];
-    let res = [];
-    
-    for (let i = 0; i < nums.length; i++) {
-        let n = nums.shift();
-        let perms = permute(nums);
-        
-        for (let perm of perms) {
-            perm.push(n);
-        }
-        res.push(...perms);
-        nums.push(n);
-        
-    }
+    const res = [];
+    bt(res, new Set(), nums);
     return res;
+    
+    function bt(res, perm, nums) {
+        if (perm.size === nums.length) {
+            res.push(Array.from(perm));
+            return;
+        }
+        
+        
+        for (let i = 0; i < nums.length; i++) {
+            if (perm.has(nums[i])) continue;
+            perm.add(nums[i]);
+            bt(res, perm, nums);
+            perm.delete(nums[i]);
+        }
+    }
 };
