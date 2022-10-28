@@ -25,5 +25,4 @@ var binaryTreePaths = function(root) {
         bt(root.left, path + root.val + '->');
         bt(root.right, path + root.val + '->');
     }
-    
 };
