@@ -3,15 +3,16 @@
  * @return {boolean}
  */
 var isHappy = function(n) {
-    let set = new Set();
+    if (n === 1) return true;
+    let slow = n,
+        fast = makeNum(n);
     
     while (true) {
-        if (set.has(n)) return false;
-        if (n === 1) return true;
-        set.add(n);
-        n = makeNum(n);
-    }
-    
+        if (slow === fast) return false;
+        if (fast === 1) return true;
+        fast = makeNum(makeNum(fast));
+        slow = makeNum(slow);
+    } 
 };
 
 function makeNum(n) {
