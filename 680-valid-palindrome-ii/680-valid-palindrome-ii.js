@@ -10,8 +10,7 @@ var validPalindrome = function(s) {
         if (s[l] !== s[r]) {
             return isPalindrome(s, l + 1, r) || isPalindrome(s, l, r - 1);
         }
-        l++;
-        r--;
+        l++, r--;
     }
     return true;
 };
@@ -19,8 +18,7 @@ var validPalindrome = function(s) {
 function isPalindrome(s, l ,r) {    
     while (l < r) {
         if (s[l] !== s[r]) return false;
-        l++;
-        r--;
+        l++, r--;
     }
     return true;    
 }
