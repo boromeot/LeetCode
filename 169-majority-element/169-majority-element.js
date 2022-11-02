@@ -3,20 +3,19 @@
  * @return {number}
  */
 var majorityElement = function(nums) {
-    let count = {};
-    let max = 0;
-    let res;
+    let count = 0;
+    let res = nums[0];
     
-    for (let n of nums) {
-        if (count[n]) count[n]++;
-        else count[n] = 1;
-    }
-    console.log(count)
-    for (let k of Object.keys(count)) {
-        if (count[k] > max) {
-            res = k;
-            max = count[k];
+    for (let i = 0; i < nums.length; i++) {
+        let n = nums[i];
+        if (res === n) count++;
+        else count--;
+        
+        if (count === 0) {
+            res = nums[i + 1];
+            count = 0;
         }
+        
     }
-    return +res;
+    return res;
 };
