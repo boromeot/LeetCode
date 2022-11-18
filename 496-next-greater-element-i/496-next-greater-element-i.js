@@ -4,28 +4,19 @@
  * @return {number[]}
  */
 var nextGreaterElement = function(nums1, nums2) {
+    let stack = []; // Monotonic decreasing stack
     let map = {};
-    let res = new Array(nums1.length);
-    
-    for (let i = 0; i < nums2.length; i++) {
-        let n = nums2[i];
-        map[n] = i;
+    for (let n of nums2) {
+        while (stack.at(-1) !== undefined && n > stack.at(-1)) {
+            map[stack.pop()] = n;
+        }
+        stack.push(n);
     }
-
-    for (let i = 0; i < nums1.length; i++) {
-        let n = nums1[i];
-        let j = map[n];
-        
-        while (j < nums2.length) {
-            if (nums2[j] > n) {
-                res[i] = nums2[j];
-                break;
-            }
-            j++;
-        }
-        if (j === nums2.length) {
-            res[i] = -1;
-        }
+    
+    let res = [];
+    
+    for (let n of nums1) {
+        res.push(map[n] || -1);
     }
     return res;
 };
