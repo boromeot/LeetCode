@@ -3,23 +3,27 @@
  * @param {string} t
  * @return {boolean}
  */
-var isAnagram = function(s, t) {
-    if (s.length !== t.length) return false;
+var isAnagram = function(s, t) {// time O(n), space O(n)
+    let count1 = {};
+    let count2 = {};
     
-    let map = {};
     
     for (let c of s) {
-        map[c] ? map[c]++ : map[c] = 1;
+        if (count1[c]) count1[c]++;
+        else count1[c] = 1;
     }
-    
-    let reqLen = s.length;
     
     for (let c of t) {
-        if (map[c]) {
-            map[c]--;
-            reqLen--;
-        }
-        if (reqLen === 0) return true;
+        if (count2[c]) count2[c]++;
+        else count2[c] = 1;
     }
-    return false;
+    
+    for (let k of Object.keys(count1)) {
+        if (count1[k] !== count2[k]) return false;
+    }
+    
+    for (let k of Object.keys(count2)) {
+        if (count2[k] !== count1[k]) return false;
+    }
+    return true;
 };
