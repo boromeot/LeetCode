@@ -3,15 +3,14 @@
  * @return {number[]}
  */
 var sumZero = function(n) {
-    if (n === 2) return [1,-1];
-    let runningSum = 0;
-    let res = new Array(n);
+    let res = new Array();
     
-    for (let i = 0; i < n - 1; i++) {
-        runningSum += i;
-        res[i] = i;
+    if (n % 2 === 1) {
+        res.push(0);
     }
     
-    res[n-1] = runningSum - (2*runningSum);
+    for (let i = 1; i <= n/2; i++) {
+        res.push(i, -i);
+    }
     return res;
 };
