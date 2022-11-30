@@ -11,25 +11,18 @@
  * @return {number}
  */
 var maxDepth = function(root) {
+    if (!root) return 0;
+    let maxDepth = 1;
+    dfs(root, maxDepth);
+    return maxDepth;
     
-    return dfs(root);
     
-    function dfs(root) {
-        if (!root) return 0;
-        
-        let left = dfs(root.left);
-        let right = dfs(root.right);
-        
-        return Math.max(left, right) + 1;
+    function dfs(node, depth) {
+        if (!node) {
+            return;
+        }
+        maxDepth = Math.max(maxDepth, depth);
+        dfs(node.left, depth + 1);
+        dfs(node.right, depth + 1);
     }
 };
-
-
-/*
-
-  3
-9  20
-  15 7
-
-
-*/
