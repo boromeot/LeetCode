@@ -11,21 +11,26 @@
  * @return {boolean}
  */
 var hasCycle = function(head) {
-    let slow = head;
-    let fast = head;
+    if (!head) return false;
     
-    while (fast && fast.next) {
-        slow = slow.next;
-        fast = fast.next.next;
-        if (slow === fast) {
-            return true;
-        }
+    let l = head,
+        r = head.next;
+    
+    const set = new Set();
+    
+    while (!set.has(l) || !set.has(r)) {
+        if (r === null || r.next === null) return false;
+        set.add(l);
+        set.add(r);
+        
+        l = l.next.next;
+        r = r.next.next;
     }
-    return false;
+    return true;
 };
 
-// 1 2 3 n
-//   s f
-//     s
+// 1 2 3 4 n
+//     s f
+//         
 
 //
