@@ -11,9 +11,9 @@ var merge = function(intervals) {
     
     for (let interval of intervals) {
         
-        if (merged.length === 0 || merged.at(-1)[1] < interval[0]) {
+        if (merged.length === 0 || merged.at(-1)[1] < interval[0]) { // IF prev ends before next starts, they do not overlap
             merged.push(interval);
-        } else {
+        } else { // It starts before prev ends
             merged.at(-1)[1] = Math.max(merged.at(-1)[1], interval[1]);
         }
     }
