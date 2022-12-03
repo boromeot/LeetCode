@@ -1,6 +1,6 @@
 
 var HitCounter = function() {
-    this.timeToHits = {};
+    this.hits = new Array();
 };
 
 /** 
@@ -8,7 +8,7 @@ var HitCounter = function() {
  * @return {void}
  */
 HitCounter.prototype.hit = function(timestamp) {
-    this.timeToHits[timestamp] ? this.timeToHits[timestamp]++ : this.timeToHits[timestamp] = 1;
+    this.hits.push(timestamp);
 };
 
 /** 
@@ -16,15 +16,15 @@ HitCounter.prototype.hit = function(timestamp) {
  * @return {number}
  */
 HitCounter.prototype.getHits = function(timestamp) {
-    const startTime = timestamp - 300 < 0 ? 0 : timestamp - 300;
-    const endTime = timestamp;
-    let countOfHits = 0;
-    for (let k of Object.keys(this.timeToHits)) {
-        if (k > startTime && k <= endTime) {
-            countOfHits += this.timeToHits[k];
-        }
-    }   
-    return countOfHits;
+    let l = 0, r = this.hits.length - 1;
+    const target = timestamp - 300;
+    
+    while (l <= r) {
+        let m = Math.trunc((l + r) / 2);
+        if (this.hits[m] <= target) l = m + 1;
+        else r = m - 1;
+    }
+    return this.hits.length - l;
 }
 
 /** 
