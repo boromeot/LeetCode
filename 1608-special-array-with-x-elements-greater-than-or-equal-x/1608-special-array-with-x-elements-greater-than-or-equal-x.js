@@ -3,7 +3,7 @@
  * @return {number}
  */
 var specialArray = function(nums) {
-    for (let x = 1; x <= nums.length; x++) {
+    for (let x = 1; x <= nums.length; ++x) {
         let count = x;
         for (let n of nums) {
             if (count < 0) break;
@@ -13,3 +13,4 @@ var specialArray = function(nums) {
     }
     return -1;
 };
+//[4,4,4]
