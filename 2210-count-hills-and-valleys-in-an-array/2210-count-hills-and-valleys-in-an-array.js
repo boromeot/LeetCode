@@ -9,9 +9,6 @@ var countHillValley = function(nums) {
     
     for (let i = 1; i < nums.length - 1; i++) {
         const num = nums[i];
-        if (num === prev) {
-            continue;
-        }
         
         if (prev < num && num > nums[i + 1]) {
             hills++;
