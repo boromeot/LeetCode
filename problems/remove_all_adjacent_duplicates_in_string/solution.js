@@ -4,7 +4,7 @@
  */
 var removeDuplicates = function(s) {
     let stack = [];
-    
+
     for (let c of s) {
         if (stack.at(-1) === c) {
             stack.pop();
