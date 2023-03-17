@@ -11,16 +11,14 @@
  * @return {boolean}
 */
 
-var hasCycle = function(head) {
+var hasCycle = function(head) { // Time O(n), Space O(1)
     let slow = head;
     let fast = head;
-    
+
     while (fast && fast.next) {
         slow = slow.next;
         fast = fast.next.next;
-        if (slow === fast) {
-            return true;
-        }
+        if (slow === fast) return true;
     }
     return false;
 };
