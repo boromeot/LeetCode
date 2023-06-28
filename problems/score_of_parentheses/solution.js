@@ -10,9 +10,9 @@ var scoreOfParentheses = function(s) {
         if (c === '(') {
             stack.push(0);
         } else {
-            let v = stack.pop(),
-            w = stack.pop();
-            stack.push(w + Math.max(2 * v, 1));
+            let a = stack.pop(),
+            b = stack.pop();
+            stack.push(b + Math.max(2 * a, 1));
         }
     }
     return stack.pop();
