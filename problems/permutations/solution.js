@@ -3,17 +3,25 @@
  * @return {number[][]}
  */
 var permute = function(nums) {
-    let res = [];
-    bt(nums, []);
-    return res;
-    
-    function bt(nums, perm) {
-        if (nums.length === 0) {
-            res.push(perm);
-            return;
-        }
-        for (let i = nums.length - 1; i >= 0; i--) {
-            bt([...nums.slice(0, i), ...nums.slice(i+1)], [...perm, nums[i]]);
+    const permuations = [];
+    const perm = [];
+    const chosen = new Array(nums.length).fill(false);
+
+    function bt() {
+        if (perm.length === nums.length) {
+            permuations.push(perm.slice());
+        } else {
+            for (let i = 0; i < nums.length; i++) {
+                if (chosen[i]) continue;
+                chosen[i] = true;
+                perm.push(nums[i]);
+                bt();
+                chosen[i] = false;
+                perm.pop();
+            }
         }
     }
+
+    bt();
+    return permuations;
 };
