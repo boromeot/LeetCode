@@ -4,35 +4,31 @@
  */
 var partition = function(s) {
     const res = [];
-    const partition = [];
-    
-    dfs(0);
+    const part  = [];
+
+    bt(0);
     return res;
-    
-    function dfs(i) {
-        if (i >= s.length) {
-            res.push(partition.slice());
-            return;
-        }
+
+    function bt(i) {
+       if (i === s.length) {
+           res.push(part.slice());
+           return;
+       }
+
         for (let j = i; j < s.length; j++) {
-            if (isPalindrome(s, i, j)) {
-                partition.push(s.slice(i, j + 1));
-                dfs(j + 1);
-                partition.pop();
+            if (isPalin(i, j)) {
+                part.push(s.slice(i, j + 1));
+                bt(j + 1);
+                part.pop();
             }
         }
-        
     }
-    
-    function isPalindrome(s, l, r) {        
-        while (l < r) {
-            if (s[l] !== s[r]) {
-                return false;
-            }
-            l++;
-            r--;
+
+    function isPalin(i, j) {
+        while (i < j) {
+            if (s[i] !== s[j]) return false;
+            i++, j--;
         }
         return true;
     }
-    
 };
