@@ -3,21 +3,22 @@
  * @return {number[][]}
  */
 var subsets = function(nums) {
-    const n = nums.length;
     const res = [];
-    const set = [];
+    const sub = [];
 
-    function search(k) {
-        if (k === n) {
-            res.push(set.slice());
+    bt(0);
+    return res;
+
+    function bt(i) {
+        if (i === nums.length) {
+            res.push(sub.slice());
         } else {
-            set.push(nums[k]);
-            search(k + 1);
-            set.pop();
-            search(k + 1);
+            bt(i + 1);
+            sub.push(nums[i]);
+            bt(i + 1);
+            sub.pop();
         }
+        return;
     }
 
-    search(0);
-    return res;
 };
