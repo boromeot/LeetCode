@@ -8,26 +8,23 @@ var combinationSum = function(candidates, target) {
     const combo = [];
     let sum = 0;
 
-    dfs(0);
-    
+    bt(0);
     return res;
-    function dfs(l) {
+
+    function bt(k) {
+        if (sum > target) return;
         if (sum === target) {
             res.push(combo.slice());
             return;
         }
-        
-        if (sum > target || l >= candidates.length) {
-            return;
+
+        for (let i = k; i < candidates.length; i++) {
+            const n = candidates[i];
+            sum += n;
+            combo.push(n);
+            bt(i);
+            sum -= n;
+            combo.pop();
         }
-        
-        sum += candidates[l];
-        combo.push(candidates[l]);
-        dfs(l);
-        sum -= candidates[l];
-        combo.pop();
-        dfs(l + 1);
     }
-    
 };
-//[1, 2] target = 3
