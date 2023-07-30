@@ -4,34 +4,37 @@
  * @return {boolean}
  */
 var exist = function(board, word) {
-    const ROWS = board.length,
-          COLS = board[0].length;
+    const rows = board.length,
+          cols = board[0].length;
 
-    const path = new Set();
-    
-    function dfs(r, c, i) {
-        if (i >= word.length) {
-            return true;
-        }
-        if (r < 0 || c < 0 ||
-            r >= ROWS || c >= COLS ||
-            board[r][c] !== word[i] ||
-            path.has((r + ',' + c))) {
-            return false;
-        }
-        
-        path.add(r + ',' + c);
-        const res = dfs(r + 1, c, i + 1) ||
-                    dfs(r - 1, c, i + 1) ||
-                    dfs(r, c + 1, i + 1) ||
-                    dfs(r, c - 1, i + 1);
-        path.delete(r + ',' + c);
-        return res;
-    }
-    for (let i = 0; i < ROWS; i++) {
-        for (let j = 0; j < COLS; j++) {
-            if (dfs(i, j, 0)) return true;
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if (bt(i, j, 0)) {
+                return true;
+            }
         }
     }
+
     return false;
+
+    function bt(r, c, i) {
+        // Found path
+        if (i === word.length) return true;
+
+        // Out of bounds
+        if (r < 0 || c < 0 || r >= rows || c >= cols) return false;
+        
+        // Wrong char
+        if (board[r][c] !== word[i]) return false;
+
+        board[r][c] = null;
+        const found = bt(r + 1, c, i + 1) || 
+                      bt(r - 1, c, i + 1) || 
+                      bt(r, c + 1, i + 1) || 
+                      bt(r, c - 1, i + 1)
+        
+        board[r][c] = word[i];
+        
+        return found;
+    }
 };
