@@ -4,23 +4,22 @@
  * @return {number[][]}
  */
 var combine = function(n, k) {
-    let res = [];
-    let choices = [];
-    for (let i = 1; i < n + 1; i++) {
-        choices.push(i);
-    }
-    backtracking(choices, []);
+    const res = [];
+    const combo = [];
+
+    bt(1);
     return res;
 
-    function backtracking(choices, path) {
-        if (path.length === k) {
-            res.push(path);
+    function bt(i) {
+        if (combo.length === k) {
+            res.push(combo.slice());
             return;
         }
 
-        for (let i = choices.length - 1; i >= 0; i--) {
-            let n = choices.pop();
-            backtracking([...choices], [...path, n]);
+        for (let j = i; j < n + 1; j++) {
+            combo.push(j);
+            bt(j + 1);
+            combo.pop();
         }
     }
 };
