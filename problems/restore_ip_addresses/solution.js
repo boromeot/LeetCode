@@ -3,24 +3,31 @@
  * @return {string[]}
  */
 var restoreIpAddresses = function(s) {
-    if (s.length < 4 || s.length > 12) return [];
-    
     const res = [];
-    bt(0, 0, '');
+    const part = [];
+
+    bt(0);
     return res;
-    
-    function bt(dots, i, curIp) {
-        if (dots === 4 && i === s.length) {
-            res.push(curIp.slice(0, curIp.length - 1));
+
+    function bt(i) {
+        if (part.length === 4 && i === s.length) {
+            res.push(part.join('.'));
             return;
         }
-        if (dots > 4) return; 
-        
-        for (let j = i; j < Math.min(j + 3, s.length); j++) {
-            if (+s.slice(i, j+1) <= 255 && (i === j || s[i] !== '0')) {
-                bt(dots + 1, j + 1, curIp + s.slice(i, j+1) + '.');
+
+        for (let j = i; j < s.length; j++) {
+            if (good(s.slice(i, j + 1))) {
+                part.push(s.slice(i, j + 1));
+                bt(j + 1);
+                part.pop();
             }
         }
     }
-    
+
+    function good(str) {
+        if (str[0] === '0' && str.length > 1) return false;
+        if (+str < 0 || +str > 255) return false;
+        return true;
+    }
+
 };
