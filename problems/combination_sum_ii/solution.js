@@ -4,33 +4,35 @@
  * @return {number[][]}
  */
 var combinationSum2 = function(candidates, target) {
-    const res = [];
-    const combo = [];
-    let sum = 0;
     candidates.sort((a, b) => a - b);
-    dfs(0);
+
+    let sum = 0;
+    const combo = [];
+    const res = [];
+
+    bt(0);
     return res;
-    
-    
-    function dfs(l) {
+
+    // [1,2,2,2,5]
+    function bt(i) {
+        if (sum > target) return;
         if (sum === target) {
             res.push(combo.slice());
             return;
         }
-        if (sum > target || l >= candidates.length) {
-            return;
+
+        let prev = -1;
+        for (let j = i; j < candidates.length; j++) {
+            if (candidates[j] === prev) continue;
+
+            combo.push(candidates[j]);
+            sum += candidates[j];
+            
+            bt(j + 1);
+
+            combo.pop();
+            sum -= candidates[j];
+            prev = candidates[j];
         }
-        
-        sum += candidates[l];
-        combo.push(candidates[l]);
-        dfs(l + 1);
-        
-        sum -= candidates[l];
-        combo.pop();
-        while(candidates[l] === candidates[l + 1]) {
-            l++;
-        }
-        dfs(l + 1);
     }
-    
 };
