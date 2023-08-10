@@ -4,22 +4,19 @@
  * @return {number[][]}
  */
 var combine = function(n, k) {
-    const res = [];
-    const combo = [];
-
-    bt(1);
-    return res;
-
-    function bt(i) {
-        if (combo.length === k) {
-            res.push(combo.slice());
-            return;
-        }
-
-        for (let j = i; j < n + 1; j++) {
-            combo.push(j);
-            bt(j + 1);
-            combo.pop();
-        }
-    }
+    const result = [];
+    generateCombinations(1, n, k, [], result);
+    return result;
 };
+
+function generateCombinations(start, n, k, combination, result) {
+    if (k === 0) {
+        result.push([...combination]);
+        return;
+    }
+    for (let i = start; i <= n; ++i) {
+        combination.push(i);
+        generateCombinations(i + 1, n, k - 1, combination, result);
+        combination.pop();
+    }
+}
