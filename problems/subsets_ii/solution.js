@@ -3,27 +3,27 @@
  * @return {number[][]}
  */
 var subsetsWithDup = function(nums) {
-    const res = [];
-    
-    const subset = [];
     nums.sort((a, b) => a - b);
-    
-    dfs(0);
+    let res = [];
+
+    bt(0, []);
     return res;
-    
-    function dfs(l) {
-        if (l >= nums.length) {
+
+    function bt(i, subset) {
+        if (i === nums.length) {
             res.push(subset.slice());
             return;
         }
-        
-        subset.push(nums[l]);
-        dfs(l + 1);
-        
+
+        // With nums[i];
+        subset.push(nums[i]);
+        bt(i + 1, subset);
         subset.pop();
-        while(nums[l] === nums[l + 1]) {
-            l++;
+
+        // Without
+        while (i + 1 < nums.length && nums[i] === nums[i + 1]) {
+            i++;
         }
-        dfs(l + 1);
+        bt(i + 1, subset);
     }
 };
