@@ -4,25 +4,15 @@
  */
 var lengthOfLongestSubstring = function(s) {
     const set = new Set();
-
-    let l = 0,
-        r = 0;
-    
     let res = 0;
-    while (r < s.length) {
-        while (set.has(s[r]) && l < r) {
-            set.delete(s[l]);
-            l++;
+
+    for (let i = 0, j = 0; i < s.length; i++) {
+        while(set.has(s[i])) {
+            set.delete(s[j]);
+            j++;
         }
-        
-        set.add(s[r]);
-        res = Math.max(res, set.size);
-        r++;
+        set.add(s[i]);
+        res = Math.max(res, i - j + 1);
     }
     return res;
 };
-
-// "pwwkew"
-//   l
-//    r
-// set = [b]
