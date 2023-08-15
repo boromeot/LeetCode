@@ -4,37 +4,22 @@
  * @return {number}
  */
 var characterReplacement = function(s, k) {
-    const map = {} // { char : occurences }
-    
-    let l = 0,
-        r = 0;
-    
-    let maxFreq = 0;
+    const map = {};
+    let maxF = 0;
     let res = 0;
-    
-    while (r < s.length) {
-        map[s[r]] === undefined ? map[s[r]] = 1 : map[s[r]]++;
-        
-        maxFreq = Math.max(maxFreq, map[s[r]]);
-        if ((r - l + 1) - maxFreq > k) {
-            map[s[l]]--;
-            l++;
+
+    for (let i = 0, j = 0; i < s.length; i++) {
+        map[s[i]] ? map[s[i]]++ : map[s[i]] = 1;
+        maxF = Math.max(maxF, map[s[i]]);
+
+        if ((i - j + 1) - maxF <= k) {
+            res = Math.max(res, i - j + 1);
         }
-        
-        res = Math.max(res, r - l + 1);
-        r++;
+
+        while ((i - j + 1) - maxF > k) {
+            map[s[j]]--;
+            j++;
+        }
     }
     return res;
 };
-
-// "AAAB", k = 1
-//  l
-//     r
-/*
-{ 
- A: 3,
- B: 2
-}
-
-
-*/
