@@ -3,49 +3,32 @@
  * @param {string} t
  * @return {string}
  */
-/*
-reqLen = 0 -> 1
-A, B
-l
-r
-min = Infinity 
- A : 1*/
 var minWindow = function(s, t) {
     if (t.length > s.length) return '';
-    
-    let reqLen = t.length;
-    const map = {};
-    
-    for (let c of t) {
-        map[c] === undefined ? map[c] = 1 : map[c]++;
+
+    let map = {};
+    for (let i = 0; i < t.length; i++) {
+        map[t[i]] ? map[t[i]]++ : map[t[i]] = 1;
     }
-    
-    let l = 0,
-        r = 0;
-    
-    let minL, minR;
-    let minLen = Infinity;
-    
-    while (r < s.length) {
-        if (map[s[r]] > 0) {
-            reqLen--;
-        }
-        map[s[r]]--;
-        while (reqLen === 0) {
-            if (r - l + 1 < minLen) {
-                minL = l,
-                minR = r;        
-                minLen = r - l + 1;
+    let len = t.length;
+
+    let resLen = s.length;
+    let res = [0, 0];
+
+    for (let i = 0, j = 0; i < s.length; i++) {
+        if (map[s[i]] > 0) len--;
+        map[s[i]]--;
+        while (len === 0) {
+            if (i - j + 1 <= resLen) {
+                resLen = i - j + 1;
+                res[0] = j,
+                res[1] = i + 1;
             }
-            if (map[s[l]] === 0) {
-                reqLen++;
-            }
-            map[s[l]]++;
-            l++;
+            if (map[s[j]] === 0) len++;
+            map[s[j]]++;
+            j++;
         }
-        
-        r++;
+
     }
-    if (minL === undefined || minR === undefined) return '';
-    return s.slice(minL, minR + 1);
+    return s.slice(res[0], res[1]);
 };
