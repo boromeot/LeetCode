@@ -4,31 +4,23 @@
  * @return {boolean}
  */
 var checkInclusion = function(s1, s2) {
-    const map = {};
-    
-    for (let c of s1) {
-        map[c] ? map[c]++ : map[c] = 1;
+    let len = s1.length;
+    let map = {};
+    for (let i = 0; i < len; i++) {
+        map[s1[i]] ? map[s1[i]]++ : map[s1[i]] = 1;
     }
-    
-    let l = 0,
-        r = 0;
-    
-    while (r < s2.length) {
+
+    for (let i = 0, j = 0; i < s2.length; i++) {
         
-        while (!map[s2[r]] && l <= r) {
-            map[s2[l]]++;
-            l++;
+        if (map[s2[i]] > 0) len--;
+        map[s2[i]]--;
+
+        while (i - j + 1 === s1.length) {
+            if (len === 0) return true;
+            if (map[s2[j]] >= 0) len++;
+            map[s2[j]]++;
+            j++;
         }
-        
-        map[s2[r]]--;
-        if (r - l + 1 === s1.length) return true;       
-        r++;
-        
     }
     return false;
 };
-
-// "eidboab"
-//       l
-//        r
-// {a: 1, b: 1}
