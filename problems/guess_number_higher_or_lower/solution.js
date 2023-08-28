@@ -14,24 +14,11 @@
 var guessNumber = function(n) {
     let l = 1,
         r = n;
-    let m = pickMid(l, r);
-    
 
-    
     while (l <= r) {
-        if (guess(m) === -1) {
-            r = m - 1;
-            m = pickMid(l, r);
-        } else if (guess(m) === 1) {
-            l = m + 1;
-            m = pickMid(l, r);
-        } else if (guess(m) === 0) {
-            return m;
-        }
-    }
-    return -1;
-    
-    function pickMid(start, end) {
-        return Math.floor((start + end) / 2);
+        const m = l + Math.floor((r - l) / 2);
+        if (guess(m) === 0) return m;
+        if (guess(m) === 1) l = m + 1;
+        if (guess(m) === -1) r = m - 1;
     }
 };
