@@ -3,13 +3,12 @@
  * @return {number}
  */
 var climbStairs = function(n) {
-    let one = 1,
-        two = 1;
-    
+    let fib1 = 1;
+    let fib2 = 1;
     for (let i = n - 2; i >= 0; i--) {
-        let temp = one;
-        one += two;
-        two = temp;
+        const temp = fib2;
+        fib2 = fib1 + fib2;
+        fib1 = temp;
     }
-    return one;
+    return fib2;
 };
