@@ -4,12 +4,12 @@
  * @return {number[]}
  */
 var twoSum = function(nums, target) {
+    const map = new Map();
     for (let i = 0; i < nums.length; i++) {
-        let num1 = nums[i];
-        for (let j = i + 1; j < nums.length; j++) {
-            let num2 = nums[j];
-            if (num1 + num2 === target) return [i, j];
-        }
+        const n = nums[i];
+        const tar = target - n;
+        if (map[tar] !== undefined) return [map[tar], i]
+        map[n] = i;
     }
     return [-1, -1];
 };
