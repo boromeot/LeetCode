@@ -3,12 +3,12 @@
  * @return {boolean}
  */
 var containsDuplicate = function(nums) {
-    let set = new Set();
-    
-    for (let i = 0; i < nums.length; i++) {
-        let n = nums[i];
-        if (set.has(n)) return true;
-        set.add(n);
+    const count = {};
+    for (let n of nums) {
+        count[n] ? count[n]++ : count[n] = 1;
+    }
+    for (let v of Object.values(count)) {
+        if (v > 1) return true;
     }
     return false;
 };
