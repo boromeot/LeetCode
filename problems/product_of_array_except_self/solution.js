@@ -3,18 +3,23 @@
  * @return {number[]}
  */
 var productExceptSelf = function(nums) {
-    let res = [];
-    let prod = 1;
-    
-    for (let n of nums) {
-        res.push(prod);
-        prod *= n;
+    const prefix = [];
+    let product = 1;
+    for (let i = 0; i < nums.length; i++) {
+        prefix[i] = product;
+        product *= nums[i];
     }
 
-    prod = 1;
-    for (let i = nums.length - 1; i >= 0; i--) {
-        res[i] *= prod;
-        prod *= nums[i];
+    product = 1;
+    for (let i = prefix.length - 1; i >= 0; i--) {
+        prefix[i] *= product;
+        product *= nums[i];
     }
-    return res;
+    return prefix;
 };
+
+// [ 1, 2, 3, 4]
+
+// [ 1, 1, 2, 6]
+
+// [24,12, 4, 1]
